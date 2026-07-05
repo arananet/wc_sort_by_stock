@@ -18,6 +18,21 @@ primary sort, while preserving whatever ordering was already selected
 Go to **WooCommerce → Settings → Stock Sorting** to enable or disable the
 feature. It is enabled by default.
 
+## OpenSpec
+
+This repo uses [OpenSpec](https://github.com/arananet/openspec-template) for
+spec-driven development. Every feature or bugfix has a spec file under
+`.openspec/specs/`.
+
+```bash
+scripts/openspec scaffold "<name>" [--type bugfix]   # create a spec
+scripts/openspec check                                # validate spec coverage
+```
+
+In Claude Code, use `/openspec-scaffold`, `/openspec-implement`, and
+`/openspec-check` instead. See `.openspec/onboarding.yaml` to (re)run the
+setup interview.
+
 ## Requirements
 
 - WordPress

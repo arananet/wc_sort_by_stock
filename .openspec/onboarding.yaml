@@ -1,0 +1,117 @@
+# OpenSpec Onboarding Questions
+# AI agents: read CLAUDE.md (if present) first, then use this file to drive
+# the onboarding interview if the user wants to redo it (e.g. to fill in
+# roles or change the test command).
+#
+# Trimmed from the arananet/openspec-template version: this repo only has
+# the .openspec/ folder, scripts/openspec, and the Claude Code slash
+# commands — no CI, no governance files (SECURITY.md, CODEOWNERS, etc.), so
+# the questions/steps that only mattered for those were removed.
+#
+# Each question maps to a field in .openspec/config.yaml.
+
+version: "1"
+
+questions:
+  - id: project.name
+    prompt: "What is the name of this project? (short, URL-safe slug preferred, e.g. 'payments-api')"
+    required: true
+    type: string
+    maps_to: "project.name in config.yaml"
+
+  - id: project.team
+    prompt: "What team owns this project? (e.g. 'platform', 'data-eng', 'growth')"
+    required: true
+    type: string
+    maps_to: "project.team in config.yaml"
+
+  - id: project.domain
+    prompt: "What domain or product area does this belong to? (e.g. 'payments', 'auth', 'reporting')"
+    required: false
+    type: string
+    default: "engineering"
+    maps_to: "project.domain in config.yaml"
+
+  - id: project.description
+    prompt: "One sentence describing what this project does."
+    required: true
+    type: string
+    maps_to: "project.description in config.yaml"
+
+  - id: project.tech_stack
+    prompt: "What languages, frameworks, or tools does this project use? (comma-separated, e.g. 'python, fastapi, docker' or 'typescript, react, nextjs')"
+    required: false
+    type: string
+    default: ""
+    maps_to: "project.tech_stack in config.yaml"
+
+  - id: agents.implementation_skills.default
+    prompt: "Do you have a preferred domain skill for implementation? (e.g. 'frontend-pro', 'backend-pro', 'devops-pro' — press Enter to skip)"
+    required: false
+    type: string
+    default: null
+    maps_to: "agents.implementation_skills.default in config.yaml"
+
+  - id: roles.default_implementer
+    prompt: "Default implementer for new specs? (GitHub @user or @org/team — press Enter to skip)"
+    required: false
+    type: string
+    default: null
+    maps_to: "roles.default_implementer in config.yaml"
+
+  - id: roles.default_reviewer
+    prompt: "Default reviewer for new specs? (GitHub @user or @org/team — press Enter to skip)"
+    required: false
+    type: string
+    default: null
+    maps_to: "roles.default_reviewer in config.yaml"
+
+  - id: roles.default_qa
+    prompt: "Default QA owner for new specs? (GitHub @user or @org/team — press Enter to skip)"
+    required: false
+    type: string
+    default: null
+    maps_to: "roles.default_qa in config.yaml"
+
+  - id: roles.default_product_owner
+    prompt: "Default product owner for new specs? (GitHub @user or @org/team — press Enter to skip)"
+    required: false
+    type: string
+    default: null
+    maps_to: "roles.default_product_owner in config.yaml"
+
+  - id: testing.test_command
+    prompt: "What command runs your test suite? (e.g. 'npm test', 'pytest', 'go test ./...')"
+    required: true
+    type: string
+    maps_to: "testing.test_command in config.yaml"
+
+  - id: testing.require_tests
+    prompt: "Require a test_plan in every spec? (yes/no, default: yes)"
+    required: false
+    type: boolean
+    default: true
+    maps_to: "testing.require_tests in config.yaml"
+
+  - id: first_spec
+    prompt: "What is the first feature you want to build? I'll scaffold an initial spec file for it. (press Enter to skip)"
+    required: false
+    type: string
+    action: "run `scripts/openspec scaffold '<answer>'` after config is written"
+
+after_completion:
+  instructions: |
+    After collecting all answers:
+    1. Write string values into .openspec/config.yaml by replacing the
+       corresponding fields. For boolean answers: write `true` or `false`
+       (unquoted).
+    2. If the user answered the `first_spec` question, run:
+          scripts/openspec scaffold "<their answer>"
+       and show them the created .openspec/specs/<slug>.spec.yaml file.
+    3. Offer to help them fill in the acceptance criteria and test_plan for
+       their first spec.
+    4. Remind the user that every spec should have a `test_plan`, and that
+       `scripts/openspec check` validates spec coverage before a commit/PR.
+    5. If they later want CI enforcement or git-hook enforcement, point them
+       at https://github.com/arananet/openspec-template for the full
+       hooks/ + .github/workflows/ setup.

@@ -1,0 +1,87 @@
+# OpenSpec Configuration
+# ─────────────────────────────────────────────────────────────────────────────
+# Adapted from https://github.com/arananet/openspec-template.
+# Only the .openspec/ folder, scripts/openspec CLI, and Claude Code slash
+# commands were brought over — no CI workflows, governance docs, or the
+# eval harness. See .openspec/onboarding.yaml if you want to redo the
+# interview (e.g. to fill in roles).
+# ─────────────────────────────────────────────────────────────────────────────
+
+project:
+  name: "wc-sort-by-stock"
+  owner: "arananet"
+  team: "arananet"
+  domain: "e-commerce"
+  description: "WooCommerce plugin that orders the product catalog by stock status, showing in-stock products first and moving out-of-stock products to the end."
+  tech_stack: "php, wordpress, woocommerce"
+
+spec:
+  required_fields:
+    - title
+    - description
+    - acceptance_criteria
+    - test_plan
+    - status
+  enforce_on_pr: false   # no CI wired up in this repo yet
+  enforce_on_commit: false   # no git hooks installed in this repo yet
+  min_acceptance_criteria: 1
+  statuses:
+    - draft
+    - review
+    - approved
+  approved_required_for_merge: false
+
+testing:
+  require_tests: true
+  test_command: "php -l wc-sort-by-stock.php uninstall.php"
+  coverage_threshold: null
+  fail_on_missing_tests: false
+
+ci:
+  fail_on_missing_spec: false   # no CI wired up in this repo yet
+  fail_on_draft_spec: false
+  run_tests: false
+  fail_on_test_failure: false
+  fail_on_missing_tests: false
+  notify_slack: false
+  slack_webhook: ""
+
+agents:
+  spec_review:
+    enabled: false   # goal_file / workflow not present in this repo
+    model: "openai/gpt-4o-mini"
+    trigger: "pull_request"
+    post_as: "pr-comment"
+    goal_file: ".github/agents/spec-review.md"
+
+  issue_autofix:
+    enabled: false   # goal_file / workflow not present in this repo
+    label: "agent:autofix"
+    model: "anthropic/claude-sonnet-4-6"
+    goal_file: ".github/agents/issue-autofix.md"
+    max_changed_files: 20
+    max_diff_lines: 500
+
+  implementation_skills:
+    frontend: "frontend-pro"
+    backend: "backend-pro"
+    data: "data-eng-pro"
+    devops: "devops-pro"
+    mobile: "mobile-pro"
+    default: null   # null = no domain skill, Claude handles implementation directly
+
+hooks:
+  pre_commit:
+    enabled: false   # hooks/ not installed in this repo
+    block_if_no_spec: true
+    warn_only: false
+  commit_msg:
+    enabled: false   # hooks/ not installed in this repo
+    require_spec_reference: false
+    pattern: "spec: <slug>"
+
+roles:
+  default_implementer: null
+  default_reviewer: null
+  default_qa: null
+  default_product_owner: null

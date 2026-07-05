@@ -1,0 +1,62 @@
+# Feature Spec — created by scripts/openspec scaffold
+# Fill in all sections before moving status to 'review'.
+# Acceptance criteria are your definition of done — be specific.
+
+title: "Sort products by stock status"
+slug: "sort-products-by-stock-status"
+type: feature
+status: approved
+# status must be one of: draft | review | approved
+
+author: "Eduardo Arana"
+created_at: "2026-07-05"
+updated_at: "2026-07-05"
+
+roles:
+  implementer: null    # Who builds it — GitHub username or team
+  reviewer: null       # Who reviews the PR
+  qa: null             # Who validates acceptance_criteria
+  product_owner: null  # Who approves the spec (draft → approved)
+
+description: |
+  Orders the WooCommerce product catalog so in-stock products are shown
+  first and out-of-stock products are pushed to the end of the list, on
+  the shop page, product category/tag archives, and product
+  shortcodes/widgets. Store owners can toggle the behavior on or off.
+
+acceptance_criteria:
+  - "Given the shop or a product category/tag archive, when the page loads, then products with stock_status = instock appear before onbackorder, which appear before outofstock."
+  - "Given the shop's existing sort order (price, popularity, date, menu order, etc.), when stock sorting is applied, then that ordering is preserved as the secondary sort within each stock-status group."
+  - "Given the WooCommerce → Settings → Stock Sorting toggle is turned off, when the catalog is displayed, then products are ordered using the normal WooCommerce ordering only (no stock-based reordering)."
+  - "Given the plugin is uninstalled, when uninstall.php runs, then the wcsbs_enabled option is removed."
+
+test_plan:
+  - "Manual: seed products with instock, onbackorder, and outofstock status, load the shop page, and confirm the display order."
+  - "Manual: change the catalog sort dropdown (e.g. sort by price) and confirm stock status still takes priority while price ordering holds within each group."
+  - "Manual: toggle the setting off in WooCommerce → Settings → Stock Sorting and confirm the catalog reverts to normal ordering."
+  - "Lint: php -l wc-sort-by-stock.php uninstall.php"
+
+qa_notes: |
+  No automated PHP test suite exists in this repo yet (no WooCommerce test
+  harness is set up). Verification is manual against a WooCommerce store.
+
+out_of_scope:
+  - "Sorting for the block-based Products block (queries via the Store REST API, not WC_Query::product_query())."
+  - "Sorting within admin product list screens."
+
+implementation_skill: null
+
+eval_plan:
+  scenarios: []
+  metrics: []
+
+technical_notes: |
+  Implemented via woocommerce_product_query (flags the query) and a
+  posts_clauses filter that LEFT JOINs _stock_status postmeta and adds a
+  CASE-based ORDER BY (instock=0, onbackorder=1, outofstock=2, else 3)
+  ahead of the existing ORDER BY clause. See wc-sort-by-stock.php.
+
+linked_issues: []
+
+linked_prs:
+  - "https://github.com/arananet/wc_sort_by_stock/pull/1"
