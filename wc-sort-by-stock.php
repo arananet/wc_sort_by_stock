@@ -3,7 +3,7 @@
  * Plugin Name:       WC Sort by Stock
  * Description:       Orders the WooCommerce product catalog so in-stock products are shown first and out-of-stock products are pushed to the end.
  * Version:           1.0.0
- * Author:            Arananet
+ * Author:            Eduardo Arana
  * Author URI:        https://arananet.net/
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html

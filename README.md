@@ -23,3 +23,7 @@ feature. It is enabled by default.
 - WordPress
 - WooCommerce 4.0+
 - PHP 7.4+
+
+## Author
+
+Eduardo Arana
