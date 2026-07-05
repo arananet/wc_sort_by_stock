@@ -4,7 +4,7 @@
 ![WordPress](https://img.shields.io/badge/WordPress-21759B?logo=wordpress&logoColor=white)
 ![WooCommerce](https://img.shields.io/badge/WooCommerce-96588A?logo=woocommerce&logoColor=white)
 ![OpenSpec](https://img.shields.io/badge/OpenSpec-enforced-blueviolet)
-![License: GPL v2+](https://img.shields.io/badge/License-GPLv2%2B-blue.svg)
+![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
 
 > WooCommerce plugin that orders the product catalog so in-stock products
 > are shown first and out-of-stock products are pushed to the end of the
@@ -63,7 +63,7 @@ setup interview.
 
 ## License
 
-[GPL-2.0-or-later](https://www.gnu.org/licenses/gpl-2.0.html)
+[MIT](LICENSE)
 
 ## Author
 
